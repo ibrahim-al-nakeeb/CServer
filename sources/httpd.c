@@ -2,7 +2,7 @@
 //  httpd.c
 //  Hw11
 //
-//  Created by abrahem elnkeeb on 21/01/2023.
+//  Created by ibrahim alankeeb on 21/01/2023.
 //
 
 #include "httpd.h"
@@ -70,7 +70,7 @@ void serve_forever(const char *PORT)
             }
         }
 
-        while (clients[slot]!=-1) slot = (slot+1)%CONNMAX;
+        while (clients[slot]!=-1) slot = (slot+1) % CONNMAX;
     }
 }
 
