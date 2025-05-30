@@ -118,3 +118,8 @@ Temporary Items
 # Ignore all local history of files
 .history
 .ionide
+
+### Project ###
+assets/db
+obj
+server
