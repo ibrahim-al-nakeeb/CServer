@@ -26,8 +26,6 @@ extern int      payload_size;
 
 char *request_header(const char* name);
 
-// user shall implement this function
-
 void route();
 
 // some interesting macro for `route()`
