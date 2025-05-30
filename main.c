@@ -8,9 +8,16 @@
 #include "httpd.h"
 #include "includes.h"
 
-int main(int argc, char *argv[])
-{
-    serve_forever("12913");
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <port>\n", argv[0]);
+        return 1;
+    }
+
+    setUp();
+    const char *port = argv[1];
+    serve_forever(port);
     return 0;
 }
 
