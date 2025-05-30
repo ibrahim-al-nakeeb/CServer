@@ -1,12 +1,36 @@
+# Compiler and flags
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -Iheaders
 
-server: main.o httpd.o includes.o
-	gcc main.o httpd.o includes.o -o server
+# Directories
+SRC_DIR = sources
+OBJ_DIR = obj
+BIN = http-server
 
-main.o: main.c httpd.h includes.h
-	gcc main.c -c
+# Source files and object files
+SRCS = $(wildcard $(SRC_DIR)/*.c) main.c
+OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
-httpd.o: httpd.c httpd.h
-	gcc httpd.c -c
+# Default target
+all: $(BIN)
 
-includes.o: includes.c includes.h
-	gcc includes.c -c
+# Create binary
+$(BIN): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Create obj directory and compile each source file
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/main.o: main.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Ensure obj directory exists
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+# Clean up build artifacts
+clean:
+	rm -rf $(OBJ_DIR) $(BIN)
+
+.PHONY: all clean
