@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -Iheaders
 # Directories
 SRC_DIR = sources
 OBJ_DIR = obj
-BIN = http-server
+BIN = server
 
 # Source files and object files
 SRCS = $(wildcard $(SRC_DIR)/*.c) main.c
