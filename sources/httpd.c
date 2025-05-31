@@ -31,6 +31,13 @@ static int clientfd;
 
 static char *buf;
 
+char    *method,
+        *uri,
+        *qs,
+        *prot,
+        *payload;
+int      payload_size;
+
 void serve_forever(const char *PORT)
 {
     struct sockaddr_in clientaddr;
