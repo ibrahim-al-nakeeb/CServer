@@ -22,7 +22,6 @@
 #define CONNMAX 1000
 
 static int listenfd, clients[CONNMAX];
-static void error(char *);
 static void startServer(const char *);
 static void respond(int);
 
