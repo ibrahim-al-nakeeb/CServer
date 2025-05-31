@@ -36,7 +36,6 @@ void serve_forever(const char *PORT)
 {
     struct sockaddr_in clientaddr;
     socklen_t addrlen;
-    char c;
     
     int slot = 0;
     
