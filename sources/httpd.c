@@ -130,8 +130,7 @@ char *request_header(const char* name)
 //client connection
 void respond(int n)
 {
-    int rcvd, fd, bytes_read;
-    char *ptr;
+    int rcvd;
 
     buf = malloc(65535);
     rcvd=recv(clients[n], buf, 65535, 0);
