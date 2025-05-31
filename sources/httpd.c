@@ -131,8 +131,7 @@ void respond(int n)
     int rcvd;
 
     buf = malloc(65535);
-    rcvd=recv(clients[n], buf, 65535, 0);
-    //printf("eran:        %d : %s", rcvd,buf);
+    rcvd = recv(clients[n], buf, 65535, 0);
     
     if (rcvd<0)    // receive error
         fprintf(stderr,("recv() error\n"));
