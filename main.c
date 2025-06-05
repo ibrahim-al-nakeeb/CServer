@@ -25,26 +25,52 @@ void route()
 {
     ROUTE_START()
 
-    ROUTE_GET("/")
-    {
-        char* responst = getIndex();
-        printf("%s", responst);
-        free(responst);
+    ROUTE_POST("/view") {
+        char *response = renderFileResponse(HOME_PAGE, NULL);
+        if (response) {
+            printf("%s", response);
+            free(response);
+    }
     }
 
+    ROUTE_GET("/view/login") {
+        char *response = renderFileResponse(LOGIN_PAGE, NULL);
+        if (response) {
+            printf("%s", response);
+            free(response);
+        }
+    }
 
-    ROUTE_POST("/home")
+    ROUTE_GET_STARTS_WITH("/view/")
     {
-        char *page = loadHome(payload);
+        char *response = renderFileResponse(_404_PAGE, NULL);
+        if (response) {
+            printf("%s", response);
+            free(response);
+        }
+    }
+
+    ROUTE_POST("/api/signup") {
+        fprintf(stderr, "signup 1\n");
+        char *page = signUp(payload);
         printf("%s",  page);
         free(page);
     }
 
-    ROUTE_POST("/register") 
-    {
-        char *page = signUP(payload);
+    ROUTE_POST("/api/signin") {
+        char *page = signIn(payload);
         printf("%s",  page);
         free(page);
+    }
+
+    ROUTE_GET_STARTS_WITH("/assets/")
+    {
+        int response_size = 0;
+        char *response = renderFileResponse(uri + 1, &response_size);
+        if (response) {
+            fwrite(response, 1, response_size, stdout);
+            free(response);
+        }
     }
   
     ROUTE_END()
