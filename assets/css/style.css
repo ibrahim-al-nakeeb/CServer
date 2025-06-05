@@ -1,0 +1,10 @@
+.bg-image {
+	background-image: url('/assets/images/background.jpg');
+	height: 300px;
+}
+
+.shadow-5-strong {
+	margin-top: -100px;
+	background: hsla(0, 0%, 100%, 0.8);
+	backdrop-filter: blur(30px);
+}
