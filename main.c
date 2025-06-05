@@ -1,8 +1,8 @@
 //
-//  inclides.c
-//  Hw11
+//  main.c
+//  CServer
 //
-//  Created by abrahem elnkeeb on 21/01/2023.
+//  Created by ibrahim alnakeeb on 21/01/2023.
 //
 
 #include "httpd.h"

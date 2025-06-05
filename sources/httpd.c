@@ -1,6 +1,6 @@
 //
 //  httpd.c
-//  Hw11
+//  CServer
 //
 //  Created by ibrahim alankeeb on 21/01/2023.
 //
