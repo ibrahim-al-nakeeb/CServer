@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CServer</title>
+    <link href="/assets/images/favicon.ico" rel="icon" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+
+<body>
+<section class="text-center">
+    <!-- Background image -->
+    <div class="p-5 bg-image"></div>
+    <!-- Background image -->
+    <div class="card mx-4 mx-md-5 shadow-5-strong">
+        <div class="card-body py-5 px-md-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-5">Sign in now</h2>
+                    <form>
+                            <!-- Username input -->
+                        <div class="form-outline mb-4">
+                            <input type="text" id="username" name="username" class="form-control" required/>
+                            <label class="form-label" for="username">Username</label>
+                        </div>
+                            <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <input type="password" id="password" name="password" class="form-control" required/>
+                            <label class="form-label" for="form3Example4">Password</label>
+                        </div>
+                            <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary mb-4" formaction="/api/signin" formmethod="post">Sign in</button>
+                        <button type="submit" class="btn btn-primary mb-4" formaction="/api/signup" formmethod="post">Sign up</button>
+                            <!-- Register buttons -->
+                        <div class="text-center">
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="fab fa-google"></i>
+                            </button>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                    <i class="fab fa-twitter"></i>
+                            </button>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="fab fa-github"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+</body>
+
+</html>
