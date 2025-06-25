@@ -29,6 +29,8 @@ int generateToken(char *token, size_t length) {
 }
 
 int getUsernameFromToken(const char *token, char *outUsername) {
+	assert(token != NULL && outUsername != NULL);
+
 	FILE* file = fopen(SESSIONS_FILE, "r");
 	if (!file) return TOKEN_FILE_ERROR;
 
