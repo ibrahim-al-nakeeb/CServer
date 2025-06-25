@@ -9,7 +9,7 @@
 
 #define SESSIONS_FILE "assets/db/sessions.txt"
 
-int generateSecureToken(char *token, size_t length) {
+int generateToken(char *token, size_t length) {
 	assert(token != NULL);
 	assert(length >= TOKEN_STRING_LENGTH);
 
@@ -28,7 +28,7 @@ int generateSecureToken(char *token, size_t length) {
 	return TOKEN_GENERATION_SUCCESS;
 }
 
-int getUsernameFromToken(const char* token, char* outUsername) {
+int getUsernameFromToken(const char *token, char *outUsername) {
 	FILE* file = fopen(SESSIONS_FILE, "r");
 	if (!file) return TOKEN_FILE_ERROR;
 
@@ -48,7 +48,7 @@ int getUsernameFromToken(const char* token, char* outUsername) {
 	return TOKEN_NOT_FOUND;
 }
 
-int storeSession(const char* token, const char* username) {
+int storeSession(const char *token, const char *username) {
 	assert(token != NULL && username != NULL);
 
 	FILE* file = fopen(SESSIONS_FILE, "a");

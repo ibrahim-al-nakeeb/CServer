@@ -28,13 +28,13 @@
 #define USER_FILE_ERROR -1
 
 
-int addUser(const char* username, const char* password);
+int addUser(const char *username, const char *password);
 
-int checkUser(const char* username);
-int checkPassword(const char* username, const char* password);
+int checkUser(const char *username);
+int checkPassword(const char *username, const char *password);
 
-char* getProfileDescription(const char* username);
-int setProfileDescription(const char* username, const char* new_desc);
+char *getProfileDescription(const char *username);
+int setProfileDescription(const char *username, const char *new_desc);
 
 
 #endif /* user_h */

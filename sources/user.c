@@ -21,7 +21,7 @@ int parseUserLine(char *line, char **username, char **password, char **desc) {
 }
 
 // Allocates memory, caller must free result
-char* getProfileDescription(const char* username) {
+char *getProfileDescription(const char *username) {
 	assert(username != NULL);
 
 	FILE *file = fopen(USERS_FILE, "r");
@@ -42,7 +42,7 @@ char* getProfileDescription(const char* username) {
 	return NULL;
 }
 
-int setProfileDescription(const char* username, const char* new_desc) {
+int setProfileDescription(const char *username, const char *new_desc) {
 	assert(username != NULL && new_desc != NULL);
 	
 	FILE *file = fopen(USERS_FILE, "r");
@@ -79,7 +79,7 @@ int setProfileDescription(const char* username, const char* new_desc) {
 	return updated ? UPDATE_SUCCESS : UPDATE_FAILED;
 }
 
-int checkPassword(const char* username, const char* password) {
+int checkPassword(const char *username, const char *password) {
 	assert(username != NULL && password != NULL);
 
 	FILE *file = fopen(USERS_FILE, "r");
@@ -100,7 +100,7 @@ int checkPassword(const char* username, const char* password) {
 	return PASSWORD_MISMATCH;
 }
 
-int checkUser(const char* username) {
+int checkUser(const char *username) {
 	assert(username != NULL);
 
 	FILE *file = fopen(USERS_FILE, "r");
@@ -121,7 +121,7 @@ int checkUser(const char* username) {
 	return USER_NOT_FOUND;
 }
 
-int addUser(const char* username, const char* password) {
+int addUser(const char *username, const char *password) {
 	assert(username != NULL && password != NULL);
 
 	// Runtime validation

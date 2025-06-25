@@ -16,7 +16,7 @@ void replce(char* str, char c, char rep) {
 }
 
 // Allocates memory, caller must free result
-char* signUp(const char* payload) {
+char *signUp(const char *payload) {
 	assert(payload != NULL);
 	char username[NAME_SIZE], password[NAME_SIZE];
 	const char *placeholder[] = {"{{message}}"};
@@ -45,7 +45,7 @@ char* signUp(const char* payload) {
 
 
 // Allocates memory, caller must free result
-char* signIn(const char* payload) {
+char *signIn(const char *payload) {
 	char username[NAME_SIZE], password[NAME_SIZE];
 	sscanf(payload, "username=%127[^&]&password=%127[^\n]", username, password);
 
@@ -55,7 +55,8 @@ char* signIn(const char* payload) {
 		generateToken(token, sizeof(token));
 		storeSession(token, username);
 
-		char* result = malloc(MAX_LINE_LEN);
+		char *result = malloc(MAX_LINE_LEN);
+		if (!result) {
 		snprintf(result, MAX_LINE_LEN,
 			"HTTP/1.1 302 Found\r\n"
 			"Location: /home\r\n"

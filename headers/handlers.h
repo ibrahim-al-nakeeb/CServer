@@ -22,8 +22,8 @@
 
 
 void setUp(void);
-char *signUp(const char* payload);
-char *signIn(const char* payload);
+char *signUp(const char *payload);
+char *signIn(const char *payload);
 
 
 #endif /* handlers_h */

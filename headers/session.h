@@ -30,13 +30,9 @@
 #define TOKEN_GENERATION_SUCCESS 1
 #define TOKEN_GENERATION_FAILURE 0
 
-#define TOKEN_BYTE_LENGTH 32								// 32 bytes = 64 hex characters
-#define TOKEN_STRING_LENGTH (TOKEN_BYTE_LENGTH * 2 + 1)		// +1 for null terminator
-
-
-
-int generateSecureToken(char *token, size_t length);
-int storeSession(const char* token, const char* username);
-int getUsernameFromToken(const char* token, char* outUsername);
+int checkToken(const char *token);
+int generateToken(char *token, size_t length);
+int storeSession(const char *token, const char *username);
+int getUsernameFromToken(const char *token, char *outUsername);
 
 #endif /* session_h */

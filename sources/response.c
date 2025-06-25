@@ -65,20 +65,7 @@ char *getFile(const char *path, int *out_size) {
 }
 
 // Allocates memory, caller must free result
-char *renderTemplate(const char* filepath, const char** placeholders, const char** values, int count) {
-    // Load file
-    FILE* fp = fopen(filepath, "r");
-    if (!fp) return NULL;
-
-    fseek(fp, 0, SEEK_END);
-    long size = ftell(fp);
-    rewind(fp);
-
-    char* page = malloc(size + 1);
-    fread(page, 1, size, fp);
-    page[size] = '\0';
-    fclose(fp);
-
+char *renderTemplate(const char *filepath, const char **placeholders, const char **values, int count) {
 
     for (int i = 0; i < count; i++) {
         const char* key = placeholders[i];

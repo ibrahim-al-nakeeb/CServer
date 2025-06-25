@@ -27,6 +27,6 @@
 
 char *renderHtmlResponse(const char *html);
 char *renderFileResponse(const char *filepath, int *out_size);
-char *renderTemplate(const char* filepath, const char** placeholders, const char** values, int count);
+char *renderTemplate(const char *filepath, const char **placeholders, const char **values, int count);
 
 #endif /* response_h */
