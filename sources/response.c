@@ -58,10 +58,9 @@ char *getFile(const char *path, int *out_size) {
         return NULL;
     }
 
-    fprintf(stderr, "size: %ld, bytes_read: %zu\n", size, bytes_read);
-
-    *out_size = (int)bytes_read;
-    return buffer;
+	if(out_size) {
+		*out_size = (int)bytes_read;
+	}
 }
 
 // Allocates memory, caller must free result
