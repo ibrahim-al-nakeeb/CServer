@@ -61,3 +61,27 @@ int storeSession(const char *token, const char *username) {
 
 	return SESSION_WRITE_SUCCESS;
 }
+
+int checkToken(const char *token) {
+	assert(token != NULL);
+	if (!token) return TOKEN_INVALID;
+
+	FILE* file = fopen(SESSIONS_FILE, "r");
+	if (!file) return TOKEN_FILE_ERROR;
+
+	char line[SESSION_LINE_LEN];
+	while (fgets(line, sizeof(line), file)) {
+		char savedToken[TOKEN_STRING_LENGTH];
+		char username[NAME_SIZE];
+
+		if (sscanf(line, "%64[^:]:%127s", savedToken, username) == 2) {
+			if (strcmp(savedToken, token) == 0) {
+				fclose(file);
+				return TOKEN_VALID;
+			}
+		}
+	}
+
+	fclose(file);
+	return TOKEN_INVALID;
+}
