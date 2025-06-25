@@ -1,6 +1,7 @@
 # Compiler and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -Iheaders
+LDLIBS = -lcrypto
 
 # Directories
 SRC_DIR = sources
@@ -16,7 +17,7 @@ all: $(BIN)
 
 # Create binary
 $(BIN): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 # Create obj directory and compile each source file
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
