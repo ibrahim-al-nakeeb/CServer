@@ -9,10 +9,10 @@
 #define pages_h
 
 
-#define _400_PAGE "assets/templates/400.html"
-#define _404_PAGE "assets/templates/404.html"
-#define HOME_PAGE "assets/templates/index.html"
-#define LOGIN_PAGE "assets/templates/login.html"
+#define _404_PAGE	"public/templates/404.html"
+#define HOME_PAGE	"public/templates/index.html"
+#define ERROR_PAGE	"public/templates/500.html"
+#define LOGIN_PAGE	"public/templates/login.html"
 
 
 #endif /* pages_h */

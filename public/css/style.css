@@ -1,5 +1,5 @@
 .bg-image {
-	background-image: url('/assets/images/background.jpg');
+	background-image: url('/public/images/background.jpg');
 	height: 300px;
 }
 
