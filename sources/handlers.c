@@ -73,7 +73,7 @@ void signUp(const char *payload) {
 		return;
 	}
 	
-	char *response = renderHtmlResponse(html, STATUS_401_UNAUTHORIZED);
+	char *response = renderHtmlResponse(html, status);
 	free(html);
 
 	if (response) {
