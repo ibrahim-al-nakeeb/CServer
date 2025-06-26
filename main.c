@@ -21,56 +21,35 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-void route()
-{
+void route() {
 	ROUTE_START()
 
-	ROUTE_POST("/view") {
-		char *response = renderFileResponse(HOME_PAGE, NULL);
-		if (response) {
-			printf("%s", response);
-			free(response);
-	}
+	ROUTE_GET("/home") {
+		serveHomePage(NULL);
 	}
 
-	ROUTE_GET("/view/login") {
-		char *response = renderFileResponse(LOGIN_PAGE, NULL);
-		if (response) {
-			printf("%s", response);
-			free(response);
-		}
+	ROUTE_GET("/login") {
+		serveLoginPage();
 	}
 
-	ROUTE_GET_STARTS_WITH("/view/")
-	{
-		char *response = renderFileResponse(_404_PAGE, NULL);
-		if (response) {
-			printf("%s", response);
-			free(response);
-		}
+	ROUTE_GET_STARTS_WITH("/") {
+		send404Page();
 	}
 
-	ROUTE_POST("/api/signup") {
-		fprintf(stderr, "signup 1\n");
-		char *page = signUp(payload);
-		printf("%s",  page);
-		free(page);
+	ROUTE_POST("/home") {
+		serveHomePage(payload);
 	}
 
-	ROUTE_POST("/api/signin") {
-		char *page = signIn(payload);
-		printf("%s",  page);
-		free(page);
+	ROUTE_POST("/signup") {
+		signUp(payload);
 	}
 
-	ROUTE_GET_STARTS_WITH("/assets/")
-	{
-		int response_size = 0;
-		char *response = renderFileResponse(uri + 1, &response_size);
-		if (response) {
-			fwrite(response, 1, response_size, stdout);
-			free(response);
-		}
+	ROUTE_POST("/signin") {
+		signIn(payload);
+	}
+
+	ROUTE_GET_STARTS_WITH("/public/") {
+		sendFileResponse(uri + 1);
 	}
   
 	ROUTE_END()
