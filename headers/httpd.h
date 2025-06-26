@@ -24,7 +24,7 @@ extern char		*method,		// "GET" or "POST"
 				*payload;		// for POST
 extern int		payload_size;
 
-char *request_header(const char* name);
+char *request_header(const char *name);
 
 void route();
 

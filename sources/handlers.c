@@ -7,7 +7,7 @@
 
 #include "handlers.h"
 
-void replce(char* str, char c, char rep) {
+void replce(char *str, char c, char rep) {
 	assert(str != NULL);
 
 	long sz = strlen(str);
@@ -28,8 +28,8 @@ char *signUp(const char *payload) {
 	int userStatus = checkUser(username);
 	if (userStatus == USER_EXISTS) {
 		text[0] = "someone else beat you to that name. Give it another shot!";
-		char* template = renderTemplate(_400_PAGE, placeholder, text, 1);
-		char* response = renderHtmlResponse(template);
+		char *template = renderTemplate(_400_PAGE, placeholder, text, 1);
+		char *response = renderHtmlResponse(template);
 		free(template);
 		return response;
 	} else if (userStatus == USER_FILE_ERROR) 
@@ -81,8 +81,8 @@ void setUp(void) {
 	}
 }
 
-void serveHomePage(const char* payload) {
-	char* token = extractSessionToken();
+void serveHomePage(const char *payload) {
+	char *token = extractSessionToken();
 	if (!token) {
 		REDIRECT_CLEAR("/login");
 		return;
@@ -98,9 +98,9 @@ void serveHomePage(const char* payload) {
 	free(token);
 
 	if (payload) {
-		const char* prefix = "profile-description=";
+		const char *prefix = "profile-description=";
 		if (strncmp(payload, prefix, strlen(prefix)) == 0) {
-			const char* desc = payload + strlen(prefix);
+			const char *desc = payload + strlen(prefix);
 			int result = setProfileDescription(username, desc);
 			if (result != UPDATE_SUCCESS) {
 				renderErrorPage("Unable to update profile description.");
@@ -109,22 +109,22 @@ void serveHomePage(const char* payload) {
 		}
 	}
 
-	const char* desc = getProfileDescription(username);
+	const char *desc = getProfileDescription(username);
 	if (!desc) {
 		renderErrorPage("Unable to retrieve profile description.");
 		return;
 	}
 
-	const char* placeholders[] = { "{{username}}", "{{profile}}" };
-	const char* values[] = { username, desc };
-	char* html = renderTemplate(HOME_PAGE, placeholders, values, 2);
+	const char *placeholders[] = { "{{username}}", "{{profile}}" };
+	const char *values[] = { username, desc };
+	char *html = renderTemplate(HOME_PAGE, placeholders, values, 2);
 
 	if (!html) {
 		renderErrorPage("Unable to display home page.");
 		return;
 	}
 
-	char* response = renderHtmlResponse(html, STATUS_200_OK);
+	char *response = renderHtmlResponse(html, STATUS_200_OK);
 	free(html);
 
 	if (response) {

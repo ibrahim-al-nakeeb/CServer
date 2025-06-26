@@ -121,7 +121,7 @@ void startServer(const char *port)
 
 
 // get request header
-char *request_header(const char* name)
+char *request_header(const char *name)
 {
 	header_t *h = reqhdr;
 	while(h->name) {

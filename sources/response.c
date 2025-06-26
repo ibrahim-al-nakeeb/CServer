@@ -72,14 +72,14 @@ char *renderTemplate(const char *filepath, const char **placeholders, const char
 	char *page = GET_FILE(filepath);
 
 	for (int i = 0; i < count; i++) {
-		const char* key = placeholders[i];
-		const char* value = values[i];
+		const char *key = placeholders[i];
+		const char *value = values[i];
 
-		char* temp = NULL;
+		char *temp = NULL;
 
 		// Replace all occurrences of key with value
 		while (1) {
-			char* pos = strstr(page, key);
+			char *pos = strstr(page, key);
 			if (!pos) break;
 
 			size_t before_len = pos - page;
