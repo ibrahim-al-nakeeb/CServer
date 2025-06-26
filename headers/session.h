@@ -18,11 +18,11 @@
 #include <sys/stat.h>
 
 
-#define TOKEN_STRING_LENGTH 64
+#define TOKEN_SIZE 64
 #define NAME_SIZE 128
 #define SESSION_LINE_LEN 256
 
-#define TOKEN_BYTE_LENGTH ((TOKEN_STRING_LENGTH) * 2 + 1)
+#define TOKEN_BYTE_LENGTH ((TOKEN_SIZE) * 2 + 1)
 
 #define TOKEN_FOUND 1
 #define TOKEN_NOT_FOUND 0

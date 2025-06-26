@@ -11,7 +11,7 @@
 
 int generateToken(char *token, size_t length) {
 	assert(token != NULL);
-	assert(length >= TOKEN_STRING_LENGTH);
+	assert(length >= TOKEN_SIZE);
 
 	unsigned char buffer[TOKEN_BYTE_LENGTH];
 
@@ -24,7 +24,7 @@ int generateToken(char *token, size_t length) {
 		sprintf(&token[i * 2], "%02x", buffer[i]);
 	}
 
-	token[TOKEN_STRING_LENGTH - 1] = '\0';
+	token[TOKEN_SIZE - 1] = '\0';
 	return TOKEN_GENERATION_SUCCESS;
 }
 
@@ -36,7 +36,7 @@ int getUsernameFromToken(const char *token, char *outUsername) {
 
 	char line[SESSION_LINE_LEN];
 	while (fgets(line, sizeof(line), file)) {
-		char savedToken[TOKEN_STRING_LENGTH], savedUsername[NAME_SIZE];
+		char savedToken[TOKEN_SIZE], savedUsername[NAME_SIZE];
 		if (sscanf(line, "%64[^:]:%127s", savedToken, savedUsername) == 2) {
 			if (strcmp(token, savedToken) == 0) {
 				strcpy(outUsername, savedUsername);
@@ -71,7 +71,7 @@ int checkToken(const char *token) {
 
 	char line[SESSION_LINE_LEN];
 	while (fgets(line, sizeof(line), file)) {
-		char savedToken[TOKEN_STRING_LENGTH];
+		char savedToken[TOKEN_SIZE];
 		char username[NAME_SIZE];
 
 		if (sscanf(line, "%64[^:]:%127s", savedToken, username) == 2) {
