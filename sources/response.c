@@ -218,7 +218,7 @@ void redirect(const char *location, const char *status, int clearCookie) {
 	printf("%s\r\n", status);
 	printf("Location: %s\r\n", location);
 	if (clearCookie) {
-		printf("Set-Cookie: session=deleted; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Strict\r\n");
+		printf("Set-Cookie: session=deleted; Max-Age=0; Path=/; HttpOnly; SameSite=Strict\r\n");
 	}
 	printf(
 		"Content-Length: 0\r\n"
