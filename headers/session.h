@@ -37,6 +37,7 @@
 #define TOKEN_VALID 1
 #define TOKEN_INVALID 0
 
+char *extractSessionToken();
 int checkToken(const char *token);
 int generateToken(char *token, size_t length);
 int storeSession(const char *token, const char *username);

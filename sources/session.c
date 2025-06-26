@@ -85,3 +85,25 @@ int checkToken(const char *token) {
 	fclose(file);
 	return TOKEN_INVALID;
 }
+
+char *extractSessionToken() {
+	const char* cookieHeader = request_header("Cookie");
+	if (!cookieHeader) return NULL;
+
+	const char* sessionPrefix = "session=";
+	const char* sessionStart = strstr(cookieHeader, sessionPrefix);
+	if (!sessionStart) return NULL;
+
+	sessionStart += strlen(sessionPrefix);
+	const char* sessionEnd = strchr(sessionStart, ';'); // end at ';' or end of string
+
+	size_t len = sessionEnd ? (size_t)(sessionEnd - sessionStart) : strlen(sessionStart);
+	if (len == 0 || len > TOKEN_SIZE) return NULL;
+
+	char* token = malloc(len + 1);
+	if (!token) return NULL;
+
+	strncpy(token, sessionStart, len);
+	token[len] = '\0';
+	return token;
+}
