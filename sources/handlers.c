@@ -135,6 +135,7 @@ void serveHomePage(const char *payload) {
 	const char *placeholders[] = { "{{username}}", "{{profile}}" };
 	const char *values[] = { username, desc };
 	char *html = renderTemplate(HOME_PAGE, placeholders, values, 2);
+	free(desc);
 
 	if (!html) {
 		renderErrorPage("Unable to display home page.");
