@@ -197,21 +197,21 @@ char *renderHtmlResponse(const char *html, const char *status) {
 	return response;
 }
 
-// Allocates memory, caller must free result
-char *renderErrorPage(const char *message) {
+void renderErrorPage(const char *message) {
 	const char *placeholders[] = { "{{message}}" };
 	const char *values[] = { message };
 
 	char *rendered_html = renderTemplate(ERROR_PAGE, placeholders, values, 1);
 	if (!rendered_html) {
-		// fallback HTML if template rendering fails
-		const char *fallback = "<h1>Error</h1><p>Something went wrong.</p>";
-		return renderHtmlResponse(fallback, STATUS_500_INTERNAL_ERROR);
+		sendFallback500Response();
+		return;
 	}
 
 	char *response = renderHtmlResponse(rendered_html, STATUS_500_INTERNAL_ERROR);
 	free(rendered_html);
-	return response;
+
+	printf("%s", response);
+	free(response);
 }
 
 void redirect(const char *location, const char *status, int clearCookie) {
