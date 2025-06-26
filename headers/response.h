@@ -46,11 +46,14 @@
 #define RENDER_FILE_WITH_SIZE(path, outSizePtr) \
 	renderFileResponse(path, outSizePtr)
 
+#define REDIRECT(location) \
+	redirect(location, STATUS_302_FOUND, 0, NULL)
+
 #define REDIRECT_WITH_SESSION(location, sessionToken) \
-	redirectInternal(location, STATUS_302_FOUND, 0, sessionToken)
+	redirect(location, STATUS_302_FOUND, 0, sessionToken)
 
 #define REDIRECT_AND_CLEAR_SESSION(location) \
-	redirectInternal(location, STATUS_302_FOUND, 1, NULL)
+	redirect(location, STATUS_302_FOUND, 1, NULL)
 
 void sendFallback500Response();
 void renderErrorPage(const char *message);
