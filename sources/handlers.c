@@ -101,14 +101,14 @@ void setUp(void) {
 void serveHomePage(const char *payload) {
 	char *token = extractSessionToken();
 	if (!token) {
-		REDIRECT_CLEAR("/login");
+		REDIRECT_AND_CLEAR_SESSION("/login");
 		return;
 	}
 
 	char username[NAME_SIZE];
 	if (getUsernameFromToken(token, username) != TOKEN_FOUND) {
 		free(token);
-		REDIRECT_CLEAR("/login");
+		REDIRECT_AND_CLEAR_SESSION("/login");
 		return;
 	}
 
