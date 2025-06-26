@@ -52,6 +52,7 @@
 #define REDIRECT_AND_CLEAR_SESSION(location) \
 	redirectInternal(location, STATUS_302_FOUND, 1, NULL)
 
+void sendFallback500Response();
 void renderErrorPage(const char *message);
 char *renderHtmlResponse(const char *html, const char *status);
 char *renderFileResponse(const char *filepath, int *out_size);

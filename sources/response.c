@@ -236,7 +236,16 @@ void redirect(const char *location, const char *status, int clearCookie, const c
 		status, location, cookieHeader
 	);
 }
+
+void sendFallback500Response() {
+	const char *message = "An unexpected error occurred. Please try again later.\r\n";
+	printf(
+		"%s\r\n"
+		"Content-Type: %s\r\n"
+		"Content-Length: %zu\r\n"
 		"Connection: close\r\n"
 		"\r\n"
+		"%s", 
+		STATUS_500_INTERNAL_ERROR, MIME_PLAIN, strlen(message), message
 	);
 }
