@@ -61,6 +61,8 @@ char *getFile(const char *path, int *out_size) {
 	if(out_size) {
 		*out_size = (int)bytes_read;
 	}
+
+	return buffer;
 }
 
 // Allocates memory, caller must free result
