@@ -18,7 +18,7 @@
 #include <sys/stat.h>
 
 
-#define TOKEN_SIZE 64
+#define TOKEN_STRING_LENGTH 64
 #define NAME_SIZE 128
 #define SESSION_LINE_LEN 256
 
