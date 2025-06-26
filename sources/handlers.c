@@ -109,3 +109,63 @@ void setUp(void) {
 		mkdir("assets/db", 0755);
 	}
 }
+
+void serveHomePage(const char* payload) {
+	char* token = extractSessionToken();
+	if (!token) {
+		REDIRECT_CLEAR("/login");
+		return;
+	}
+
+	char username[NAME_SIZE];
+	if (getUsernameFromToken(token, username) != TOKEN_FOUND) {
+		free(token);
+		REDIRECT_CLEAR("/login");
+		return;
+	}
+
+	free(token);
+
+	if (payload) {
+		const char* prefix = "profile-description=";
+		if (strncmp(payload, prefix, strlen(prefix)) == 0) {
+			const char* desc = payload + strlen(prefix);
+			int result = setProfileDescription(username, desc);
+			if (result != UPDATE_SUCCESS) {
+				renderErrorPage("Unable to update profile description.");
+				return;
+			}
+		}
+	}
+
+	const char* desc = getProfileDescription(username);
+	if (!desc) {
+		renderErrorPage("Unable to retrieve profile description.");
+		return;
+	}
+
+	const char* placeholders[] = { "{{username}}", "{{profile}}" };
+	const char* values[] = { username, desc };
+	char* html = renderTemplate(HOME_PAGE, placeholders, values, 2);
+
+	if (!html) {
+		renderErrorPage("Unable to display home page.");
+		return;
+	}
+
+	char* response = renderHtmlResponse(html, STATUS_200_OK);
+	free(html);
+
+	if (response) {
+		printf("%s", response);
+		free(response);
+	} else {
+		printf(
+			"%s\r\n"
+			"Content-Type: %s\r\n"
+			"\r\n"
+			"The server encountered an internal error and could not complete your request.\r\n"
+		, STATUS_500_INTERNAL_ERROR, MIME_PLAIN);
+	}
+}
+
