@@ -72,35 +72,6 @@ char *signIn(const char *payload) {
 	return strdup("HTTP/1.1 401 Unauthorized\r\n\r\nInvalid credentials.");
 }
 
-char* signIn(const char* payload) {
-	char username[NAME_SIZE], password[NAME_SIZE];
-
-	// Parse payload (format assumed: "username=...&password=...")
-	sscanf(payload, "username=%127[^&]&password=%127[^\n]", username, password);
-
-	if (checkPassword(username, password)) {
-		char token[TOKEN_SIZE];
-		generateSecureToken(token, sizeof(token));
-		char* profile = getProfileDescription(username);
-		char* response = (char*)malloc(1024);
-		snprintf(response, 1024,
-			"<h1>Welcome, %s!</h1><p>Your profile:</p><pre>%s</pre>",
-			username, profile ? profile : "No description.");
-		free(profile);
-		return response;
-	}
-	
-	const char *placeholder[] = {"{{message}}"};
-	const char *text[1];
-
-	*text = "you got the username or the password wrong.";
-	char* template = renderTemplate(_400_PAGE, placeholder, text, 1);
-	char* response = renderHtmlResponse(template);
-	free(template);
-	 return response;
-}
-
-
 // Ensures that the assets/db directory exists.
 void setUp(void) {
 	struct stat st = {0};
