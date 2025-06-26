@@ -67,6 +67,9 @@ char *getFile(const char *path, int *out_size) {
 
 // Allocates memory, caller must free result
 char *renderTemplate(const char *filepath, const char **placeholders, const char **values, int count) {
+	assert((count == 0) || (placeholders && values));
+
+	char *page = GET_FILE(filepath);
 
     for (int i = 0; i < count; i++) {
         const char* key = placeholders[i];
