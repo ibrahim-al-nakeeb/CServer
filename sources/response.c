@@ -197,7 +197,7 @@ char *renderHtmlResponse(const char *html, const char *status) {
 	return response;
 }
 
-void redirect(const char* location, const char* status, int clearCookie) {
+void redirect(const char *location, const char *status, int clearCookie) {
 	printf("%s\r\n", status);
 	printf("Location: %s\r\n", location);
 	if (clearCookie) {
