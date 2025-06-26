@@ -7,6 +7,12 @@
 
 #include "handlers.h"
 
+#define ALERT(type, heading, message) \
+    "<div class=\"alert alert-" type " alert-dismissible fade show\" role=\"alert\">" \
+        "<strong>" heading "</strong> " message \
+        "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>" \
+    "</div>"
+
 void replce(char *str, char c, char rep) {
 	assert(str != NULL);
 
