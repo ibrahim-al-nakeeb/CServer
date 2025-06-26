@@ -164,7 +164,7 @@ void serveHomePage(const char *payload) {
 		}
 	}
 
-	const char *desc = getProfileDescription(username);
+	char *desc = getProfileDescription(username);
 	if (!desc) {
 		renderErrorPage("Unable to retrieve profile description.");
 		return;
