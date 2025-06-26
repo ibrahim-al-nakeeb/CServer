@@ -13,12 +13,26 @@
         "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>" \
     "</div>"
 
-void replce(char *str, char c, char rep) {
-	assert(str != NULL);
+void urlDecode(char *dst, const char *src) {
+	assert(dst != NULL && src != NULL);
 
-	long sz = strlen(str);
-	for (int i = 0; i < sz ; i++)
-		if (str[i] == c) str[i] = rep;
+	while (*src) {
+		if (*src == '%') {
+			if (isxdigit(*(src + 1)) && isxdigit(*(src + 2))) {
+				char hex[3] = { *(src + 1), *(src + 2), '\0' };
+				*dst++ = (char)strtol(hex, NULL, 16);
+				src += 3;
+			} else {
+				*dst++ = *src++;
+			}
+		} else if (*src == '+') {
+			*dst++ = ' ';
+			src++;
+		} else {
+			*dst++ = *src++;
+		}
+	}
+	*dst = '\0';
 }
 
 // Allocates memory, caller must free result
