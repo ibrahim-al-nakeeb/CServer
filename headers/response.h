@@ -15,6 +15,8 @@
 
 #include "pages.h"
 
+#define BUFFER_SIZE 256
+
 #define MIME_HTML	"text/html"
 #define MIME_CSS	"text/css"
 #define MIME_PLAIN	"text/plain"
