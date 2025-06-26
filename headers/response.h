@@ -46,6 +46,8 @@
 #define RENDER_FILE_WITH_SIZE(path, outSizePtr) \
 	renderFileResponse(path, outSizePtr)
 
+void redirect(const char *location, const char *status, int clearCookie, const char *sessionToken);
+
 #define REDIRECT(location) \
 	redirect(location, STATUS_302_FOUND, 0, NULL)
 
