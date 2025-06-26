@@ -101,6 +101,7 @@ void signIn(const char *payload) {
 		REDIRECT_WITH_SESSION("/home", token);
 	} else if (passwordStatus == USER_FILE_ERROR) {
 		renderErrorPage("Something went wrong on our end. Please try again later.");
+		return;
 	}
 
 	const char *placeholders[] = { "alert" };
