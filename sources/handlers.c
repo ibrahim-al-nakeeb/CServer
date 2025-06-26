@@ -191,3 +191,34 @@ void serveHomePage(const char *payload) {
 	}
 }
 
+void serveLoginPage() {
+	char* token = extractSessionToken();
+	if (token) {
+		int status = checkToken(token);
+		free(token);
+
+		if (status == TOKEN_VALID) {
+			REDIRECT("/home");
+			return;
+		}
+	}
+
+	const char *placeholders[] = { "alert" };
+	const char *values[] = { "" };
+
+	char *html = renderTemplate(LOGIN_PAGE, placeholders, values, 1);
+	if(!html) {
+		renderErrorPage("Unable to display login page.");
+		return;
+	}
+
+	char *response = renderHtmlResponse(html, STATUS_200_OK);
+	free(html);
+
+	if (response) {
+		printf("%s", response);
+		free(response);
+	} else {
+		renderErrorPage("Something went wrong on our end. Please try again later.");
+	}
+}

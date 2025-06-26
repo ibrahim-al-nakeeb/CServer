@@ -27,6 +27,7 @@ void setUp(void);
 void signUp(const char *payload);
 void signIn(const char *payload);
 
+void serveLoginPage();
 void serveHomePage(const char *payload);
 
 
