@@ -49,33 +49,44 @@ char *signUp(const char *payload) {
 	return renderHtmlResponse("<h1>Could not create account. Try again.</h1>");
 }
 
+void signIn(const char *payload) {
+	if (!payload) {
+		renderErrorPage("Invalid request payload.");
+		return;
+	}
 
-// Allocates memory, caller must free result
-char *signIn(const char *payload) {
 	char username[NAME_SIZE], password[NAME_SIZE];
 	sscanf(payload, "username=%127[^&]&password=%127[^\n]", username, password);
 
 	int passwordStatus = checkPassword(username, password);
 	if (passwordStatus == PASSWORD_MATCH) {
-		char token[TOKEN_SIZE + 1];
+		char token[TOKEN_STRING_LENGTH + 1];
 		generateToken(token, sizeof(token));
 		storeSession(token, username);
+		REDIRECT_WITH_SESSION("/home", token);
+	} else if (passwordStatus == USER_FILE_ERROR) {
+		renderErrorPage("Something went wrong on our end. Please try again later.");
+	}
 
-		char *result = malloc(MAX_LINE_LEN);
-		if (!result) {
-		snprintf(result, MAX_LINE_LEN,
-			"HTTP/1.1 302 Found\r\n"
-			"Location: /home\r\n"
-			"Set-Cookie: session=%s; Max-Age=3600; HttpOnly\r\n"
-			"Content-Length: 0\r\n"
-			"\r\n",
-			token
-		);
-		return result;
-	} else if (passwordStatus == USER_FILE_ERROR)
-		return renderHtmlResponse("<h1>There was a server error. Please try again later.</h1>");
+	const char *placeholders[] = { "alert" };
+	const char *values[] = { ALERT("danger", "Unauthorized", "Invalid credentials.") };
+	char *html = renderTemplate(LOGIN_PAGE, placeholders, values, 1);
 
-	return strdup("HTTP/1.1 401 Unauthorized\r\n\r\nInvalid credentials.");
+	if(!html) {
+		renderErrorPage("Unable to display login page.");
+		return;
+	}
+
+	char *response = renderHtmlResponse(html, STATUS_401_UNAUTHORIZED);
+	free(html);
+
+	if (response) {
+		printf("%s", response);
+		free(response);
+	} else {
+		renderErrorPage("Something went wrong on our end. Please try again later.");
+	}
+
 }
 
 // Ensures that the assets/db directory exists.
