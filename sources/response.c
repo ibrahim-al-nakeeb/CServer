@@ -214,14 +214,28 @@ void renderErrorPage(const char *message) {
 	free(response);
 }
 
-void redirect(const char *location, const char *status, int clearCookie) {
-	printf("%s\r\n", status);
-	printf("Location: %s\r\n", location);
+void redirect(const char *location, const char *status, int clearCookie, const char *sessionToken) {
+	char cookieHeader[BUFFER_SIZE] = "";
+
 	if (clearCookie) {
-		printf("Set-Cookie: session=deleted; Max-Age=0; Path=/; HttpOnly; SameSite=Strict\r\n");
+		strcpy(cookieHeader, "Set-Cookie: session=deleted; Max-Age=0; Path=/; HttpOnly; SameSite=Strict\r\n");
+	} else if (sessionToken && *sessionToken) {
+		snprintf(cookieHeader, sizeof(cookieHeader),
+			"Set-Cookie: session=%s; Max-Age=3600; Path=/; HttpOnly; SameSite=Strict\r\n",
+			sessionToken
+		);
 	}
+
 	printf(
+		"%s\r\n"
+		"Location: %s\r\n"
+		"%s"
 		"Content-Length: 0\r\n"
+		"Connection: close\r\n"
+		"\r\n",
+		status, location, cookieHeader
+	);
+}
 		"Connection: close\r\n"
 		"\r\n"
 	);
