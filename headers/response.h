@@ -36,6 +36,12 @@
 #define RENDER_FILE_WITH_SIZE(path, outSizePtr) \
 	renderFileResponse(path, outSizePtr)
 
+#define REDIRECT(location) \
+	redirectInternal(location, STATUS_302_FOUND, 0)
+
+#define REDIRECT_CLEAR(location) \
+	redirectInternal(location, STATUS_302_FOUND, 1)
+
 char *renderHtmlResponse(const char *html);
 char *renderFileResponse(const char *filepath, int *out_size);
 char *renderTemplate(const char *filepath, const char **placeholders, const char **values, int count);
