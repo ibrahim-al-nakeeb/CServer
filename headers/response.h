@@ -24,6 +24,17 @@
 #define MIME_JPEG	"image/jpeg"
 #define MIME_BIN	"application/octet-stream"
 
+#define GET_FILE(path) \
+	getFile(path, NULL)
+
+#define READ_FILE_WITH_SIZE(path, outSizePtr) \
+	getFile(path, outSizePtr)
+
+#define RENDER_FILE(path) \
+	renderFileResponse(path, NULL)
+
+#define RENDER_FILE_WITH_SIZE(path, outSizePtr) \
+	renderFileResponse(path, outSizePtr)
 
 char *renderHtmlResponse(const char *html);
 char *renderFileResponse(const char *filepath, int *out_size);
