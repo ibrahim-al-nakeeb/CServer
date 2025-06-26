@@ -50,7 +50,7 @@
 #define REDIRECT_CLEAR(location) \
 	redirectInternal(location, STATUS_302_FOUND, 1)
 
-char *renderHtmlResponse(const char *html);
+char *renderHtmlResponse(const char *html, const char *status);
 char *renderFileResponse(const char *filepath, int *out_size);
 char *renderTemplate(const char *filepath, const char **placeholders, const char **values, int count);
 

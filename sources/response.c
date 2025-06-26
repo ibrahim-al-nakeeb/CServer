@@ -177,9 +177,8 @@ char *renderFileResponse(const char *filepath, int *out_size) {
 }
 
 // Allocates memory, caller must free result
-char *renderHtmlResponse(const char *html) {
+char *renderHtmlResponse(const char *html, const char *status) {
 	int body_len = strlen(html);
-	const char *status = "HTTP/1.1 200 OK";
 	const char *type = "text/html";
 
 	int header_len = snprintf(NULL, 0,
