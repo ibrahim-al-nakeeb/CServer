@@ -198,7 +198,7 @@ char *renderHtmlResponse(const char *html, const char *status) {
 }
 
 // Allocates memory, caller must free result
-char *renderErrorPage(const char *status, const char *message) {
+char *renderErrorPage(const char *message) {
 	const char *placeholders[] = { "{{message}}" };
 	const char *values[] = { message };
 
@@ -206,10 +206,10 @@ char *renderErrorPage(const char *status, const char *message) {
 	if (!rendered_html) {
 		// fallback HTML if template rendering fails
 		const char *fallback = "<h1>Error</h1><p>Something went wrong.</p>";
-		return renderHtmlResponse(fallback, status);
+		return renderHtmlResponse(fallback, STATUS_500_INTERNAL_ERROR);
 	}
 
-	char *response = renderHtmlResponse(rendered_html, status);
+	char *response = renderHtmlResponse(rendered_html, STATUS_500_INTERNAL_ERROR);
 	free(rendered_html);
 	return response;
 }
