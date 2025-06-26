@@ -22,24 +22,23 @@
     <!-- Background image -->
     <div class="card mx-4 mx-md-5 shadow-5-strong">
         <div class="card-body py-5 px-md-5">
-    
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-8">
-            <h2 class="fw-bold mb-5" id="username">Hey there</h2>
-            <form method="post" action="home">
-                <!-- Username input -->
-                <div class="form-outline mb-4">
-                    <textarea type="text" id="data" name="data" class="form-control" required></textarea>
-                    <label class="form-label" for="data">Profile</label>
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-5" id="username">Hey there</h2>
+                    <form method="post" action="/home">
+                        <!-- Username input -->
+                        <div class="form-outline mb-4">
+                            <textarea type="text" id="data" name="profile-description" class="form-control" required></textarea>
+                            <label class="form-label" for="data">Profile Description</label>
+                        </div>
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Save</button> 
+                        <div class="text-center">
+                            <a href="/logout">Logout</a>
+                        </div>             
+                    </form>
                 </div>
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Save</button> 
-                <div class="text-center">
-                    <a href="/">Logout</a>
-                </div>             
-            </form>
             </div>
-        </div>
         </div>
     </div>
     </section>
