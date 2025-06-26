@@ -35,32 +35,53 @@ void urlDecode(char *dst, const char *src) {
 	*dst = '\0';
 }
 
-// Allocates memory, caller must free result
-char *signUp(const char *payload) {
-	assert(payload != NULL);
+void signUp(const char *payload) {
+	if (!payload) {
+		renderErrorPage("Invalid request payload.");
+		return;
+	}
+
 	char username[NAME_SIZE], password[NAME_SIZE];
-	const char *placeholder[] = {"{{message}}"};
-	const char *text[1];
+	const char *placeholders[] = { "{{message}}" };
+	const char *values[1];
+	const char *status = STATUS_200_OK;
 
 	// Parse payload (format assumed: "username=...&password=...&profile=...")
 	sscanf(payload, "username=%127[^&]&password=%127[^&]", username, password);
 
 	int userStatus = checkUser(username);
 	if (userStatus == USER_EXISTS) {
-		text[0] = "someone else beat you to that name. Give it another shot!";
-		char *template = renderTemplate(_400_PAGE, placeholder, text, 1);
-		char *response = renderHtmlResponse(template);
-		free(template);
-		return response;
-	} else if (userStatus == USER_FILE_ERROR) 
-		return renderHtmlResponse("<h1>There was a server error. Please try again later.</h1>");
+		values[0] = ALERT("danger", "Oops!", "That name has already been registered. Select a different one.");
+		status = STATUS_400_BAD_REQUEST;
+	} else if (userStatus == USER_FILE_ERROR) {
+		renderErrorPage("Something went wrong on our end. Please try again later.");
+		return;
+	}
 
 	// Try to add user
 	int addStatus = addUser(username, password);
-	if (addStatus == ADD_USER_SUCCESS) 
-		return renderHtmlResponse("<h1>Sign-up successful! You can now sign in.</h1>");
+	if (addStatus == ADD_USER_SUCCESS) {
+		values[0] = ALERT("success", "Sign-up successful!", "You're all set! Go ahead and sign in.");
+	} else {
+		renderErrorPage("Oops! We couldn’t create your account. Give it another try.");
+		return;
+	}
+
+	char *html = renderTemplate(LOGIN_PAGE, placeholders, values, 1);
+	if(!html) {
+		renderErrorPage("Unable to display login page.");
+		return;
+	}
 	
-	return renderHtmlResponse("<h1>Could not create account. Try again.</h1>");
+	char *response = renderHtmlResponse(html, STATUS_401_UNAUTHORIZED);
+	free(html);
+
+	if (response) {
+		printf("%s", response);
+		free(response);
+	} else {
+		renderErrorPage("Something went wrong on our end. Please try again later.");
+	}
 }
 
 void signIn(const char *payload) {
