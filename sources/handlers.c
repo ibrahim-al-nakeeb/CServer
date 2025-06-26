@@ -222,3 +222,11 @@ void serveLoginPage() {
 		renderErrorPage("Something went wrong on our end. Please try again later.");
 	}
 }
+
+void send404Page() {
+	char *response = renderFileResponse(_404_PAGE, NULL);
+	if (response) {
+		printf("%s", response);
+		free(response);
+	}
+}
