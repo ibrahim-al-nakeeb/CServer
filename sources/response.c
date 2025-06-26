@@ -25,7 +25,7 @@ const char *get_mime_type(const char *path) {
 
 // Allocates memory, caller must free result
 char *getFile(const char *path, int *out_size) {
-	assert(path != NULL && out_size != NULL);
+	assert(path != NULL);
 
 	FILE *file = fopen(path, "rb");
 	if (!file) return NULL;
