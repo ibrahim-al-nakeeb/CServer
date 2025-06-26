@@ -149,12 +149,7 @@ void serveHomePage(const char *payload) {
 		printf("%s", response);
 		free(response);
 	} else {
-		printf(
-			"%s\r\n"
-			"Content-Type: %s\r\n"
-			"\r\n"
-			"The server encountered an internal error and could not complete your request.\r\n"
-		, STATUS_500_INTERNAL_ERROR, MIME_PLAIN);
+		renderErrorPage("Unable to display home page.");
 	}
 }
 
