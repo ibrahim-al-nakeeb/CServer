@@ -132,7 +132,9 @@ void serveHomePage(const char *payload) {
 		const char *prefix = "profile-description=";
 		if (strncmp(payload, prefix, strlen(prefix)) == 0) {
 			const char *desc = payload + strlen(prefix);
-			int result = setProfileDescription(username, desc);
+			char decodedDesc[MAX_LINE_LEN];
+			urlDecode(decodedDesc, desc);
+			int result = setProfileDescription(username, decodedDesc);
 			if (result != UPDATE_SUCCESS) {
 				renderErrorPage("Unable to update profile description.");
 				return;
