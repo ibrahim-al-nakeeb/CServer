@@ -46,11 +46,11 @@
 #define RENDER_FILE_WITH_SIZE(path, outSizePtr) \
 	renderFileResponse(path, outSizePtr)
 
-#define REDIRECT(location) \
-	redirectInternal(location, STATUS_302_FOUND, 0)
+#define REDIRECT_WITH_SESSION(location, sessionToken) \
+	redirectInternal(location, STATUS_302_FOUND, 0, sessionToken)
 
-#define REDIRECT_CLEAR(location) \
-	redirectInternal(location, STATUS_302_FOUND, 1)
+#define REDIRECT_AND_CLEAR_SESSION(location) \
+	redirectInternal(location, STATUS_302_FOUND, 1, NULL)
 
 void renderErrorPage(const char *message);
 char *renderHtmlResponse(const char *html, const char *status);
