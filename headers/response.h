@@ -24,6 +24,14 @@
 #define MIME_JPEG	"image/jpeg"
 #define MIME_BIN	"application/octet-stream"
 
+#define STATUS_200_OK				"HTTP/1.1 200 OK"
+#define STATUS_302_FOUND			"HTTP/1.1 302 Found"
+#define STATUS_400_BAD_REQUEST		"HTTP/1.1 400 Bad Request"
+#define STATUS_401_UNAUTHORIZED		"HTTP/1.1 401 Unauthorized"
+#define STATUS_403_FORBIDDEN		"HTTP/1.1 403 Forbidden"
+#define STATUS_404_NOT_FOUND		"HTTP/1.1 404 Not Found"
+#define STATUS_500_INTERNAL_ERROR	"HTTP/1.1 500 Internal Server Error"
+
 #define GET_FILE(path) \
 	getFile(path, NULL)
 
