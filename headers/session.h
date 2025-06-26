@@ -9,16 +9,20 @@
 #define session_h
 
 #include <stdio.h>
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <fcntl.h>
+#include <openssl/rand.h>
 #include <sys/stat.h>
 
 
 #define TOKEN_SIZE 64
 #define NAME_SIZE 128
 #define SESSION_LINE_LEN 256
+
+#define TOKEN_BYTE_LENGTH ((TOKEN_STRING_LENGTH) * 2 + 1)
 
 #define TOKEN_FOUND 1
 #define TOKEN_NOT_FOUND 0
@@ -29,6 +33,9 @@
 
 #define TOKEN_GENERATION_SUCCESS 1
 #define TOKEN_GENERATION_FAILURE 0
+
+#define TOKEN_VALID 1
+#define TOKEN_INVALID 0
 
 int checkToken(const char *token);
 int generateToken(char *token, size_t length);
