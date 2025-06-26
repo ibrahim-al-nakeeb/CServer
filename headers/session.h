@@ -17,6 +17,7 @@
 #include <openssl/rand.h>
 #include <sys/stat.h>
 
+#include "httpd.h"
 
 #define TOKEN_SIZE 64
 #define NAME_SIZE 128
