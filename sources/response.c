@@ -102,7 +102,7 @@ char *renderTemplate(const char *filepath, const char **placeholders, const char
 char *renderFileResponse(const char *filepath, int *out_size) {
 	assert(filepath != NULL);
 
-	if (strncmp(filepath, "assets/db/", 10) == 0) {
+	if (strncmp(filepath, "assets", 6) == 0) {
 		const char *response_str =
 			"HTTP/1.1 403 Forbidden\r\n"
 			"Content-Type: text/plain\r\n"
