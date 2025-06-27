@@ -40,7 +40,7 @@
 
 char *extractSessionToken();
 int checkToken(const char *token);
-int generateToken(char *token, size_t length);
+int generateToken(char *token);
 int storeSession(const char *token, const char *username);
 int getUsernameFromToken(const char *token, char *outUsername);
 

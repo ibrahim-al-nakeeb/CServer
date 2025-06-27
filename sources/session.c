@@ -9,22 +9,21 @@
 
 #define SESSIONS_FILE "assets/db/sessions.txt"
 
-int generateToken(char *token, size_t length) {
+int generateToken(char *token) {
 	assert(token != NULL);
-	assert(length >= TOKEN_SIZE);
 
-	unsigned char buffer[TOKEN_BYTE_LENGTH];
+	unsigned char buffer[TOKEN_SIZE];
 
-	if (RAND_bytes(buffer, TOKEN_BYTE_LENGTH) != 1) {
+	if (RAND_bytes(buffer, TOKEN_SIZE) != 1) {
 		fprintf(stderr, "Failed to generate secure random bytes\n");
 		return TOKEN_GENERATION_FAILURE;
 	}
 
-	for (size_t i = 0; i < TOKEN_BYTE_LENGTH; ++i) {
+	for (size_t i = 0; i < TOKEN_SIZE; ++i) {
 		sprintf(&token[i * 2], "%02x", buffer[i]);
 	}
 
-	token[TOKEN_SIZE - 1] = '\0';
+	token[TOKEN_BYTE_LENGTH - 1] = '\0';
 	return TOKEN_GENERATION_SUCCESS;
 }
 
