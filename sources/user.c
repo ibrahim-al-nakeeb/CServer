@@ -129,6 +129,8 @@ int addUser(const char *username, const char *password) {
 		return ADD_USER_INVALID_INPUT;
 	}
 
+	if(checkUser(username) == USER_EXISTS) return ADD_USER_FAILED;
+
 	FILE* file = fopen(USERS_FILE, "a");
 	if (!file) {
 		fprintf(stderr, "addUser error: could not open file for appending\n");
