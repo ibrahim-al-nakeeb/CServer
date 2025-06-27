@@ -123,8 +123,6 @@ char *renderFileResponse(const char *filepath, int *out_size) {
 	const char *status_line = "HTTP/1.1 200 OK";
 
 	if (!content) {
-		fprintf(stderr, "file %s not found\n", filepath);
-
 		if (strcmp(mime_type, MIME_HTML) == 0) {
 			content = GET_FILE_WITH_SIZE(_404_PAGE, &file_size);
 			if (content) {

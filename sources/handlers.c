@@ -242,8 +242,6 @@ void handleLoginPost(const char *payload) {
 	sscanf(payload, "action=%15[^&]", action);
 
 	size_t prefixLen = strlen("action=") + strlen(action) + 1; // +1 for '&'
-	
-	fprintf(stderr, "payload: %s\n", payload);
 
 	if (strcmp(action, "signin") == 0) {
 		signIn(payload + prefixLen);
