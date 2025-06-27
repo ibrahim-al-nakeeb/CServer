@@ -97,7 +97,7 @@ void signIn(const char *payload) {
 	}
 
 	const char *placeholders[] = { "{{alert}}" };
-	const char *values[] = { ALERT("danger", "Unauthorized", "Invalid credentials.") };
+	const char *values[] = { ALERT("danger", "Unauthorized!", "Invalid credentials.") };
 	char *html = renderTemplate(LOGIN_PAGE, placeholders, values, 1);
 
 	if(!html) {
