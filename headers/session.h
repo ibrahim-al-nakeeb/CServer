@@ -19,7 +19,7 @@
 
 #include "httpd.h"
 
-#define TOKEN_SIZE 64
+#define TOKEN_SIZE 32
 #define NAME_SIZE 128
 #define SESSION_LINE_LEN 256
 
