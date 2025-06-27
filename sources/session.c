@@ -97,7 +97,7 @@ char *extractSessionToken() {
 	const char* sessionEnd = strchr(sessionStart, ';'); // end at ';' or end of string
 
 	size_t len = sessionEnd ? (size_t)(sessionEnd - sessionStart) : strlen(sessionStart);
-	if (len == 0 || len > TOKEN_SIZE) return NULL;
+	if (len == 0 || len > TOKEN_BYTE_LENGTH) return NULL;
 
 	char* token = malloc(len + 1);
 	if (!token) return NULL;
