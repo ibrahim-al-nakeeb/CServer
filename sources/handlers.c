@@ -225,7 +225,7 @@ void send404Page() {
 
 void sendFileResponse(const char *filePath) {
 	int response_size = 0;
-	char *response = renderFileResponse(filePath, &response_size);
+	char *response = RENDER_FILE_WITH_SIZE(filePath, &response_size);
 	if (response) {
 		fwrite(response, 1, response_size, stdout);
 		free(response);
