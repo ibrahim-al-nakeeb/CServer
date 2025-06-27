@@ -46,8 +46,6 @@
 #define RENDER_FILE_WITH_SIZE(path, outSizePtr) \
 	renderFileResponse(path, outSizePtr)
 
-void redirect(const char *location, const char *status, int clearCookie, const char *sessionToken);
-
 #define REDIRECT(location) \
 	redirect(location, STATUS_302_FOUND, 0, NULL)
 
@@ -61,6 +59,7 @@ void sendFallback500Response();
 void renderErrorPage(const char *message);
 char *renderHtmlResponse(const char *html, const char *status);
 char *renderFileResponse(const char *filepath, int *out_size);
+void redirect(const char *location, const char *status, int clearCookie, const char *sessionToken);
 char *renderTemplate(const char *filepath, const char **placeholders, const char **values, int count);
 
 #endif /* response_h */
