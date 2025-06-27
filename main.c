@@ -36,6 +36,10 @@ void route() {
 		REDIRECT_AND_CLEAR_SESSION("login");
 	}
 
+	ROUTE_GET_STARTS_WITH("/public/") {
+		sendFileResponse(uri + 1);
+	}
+
 	ROUTE_GET_STARTS_WITH("/") {
 		send404Page();
 	}
@@ -48,9 +52,6 @@ void route() {
 		handleLoginPost(payload);
 	}
 
-	ROUTE_GET_STARTS_WITH("/public/") {
-		sendFileResponse(uri + 1);
-	}
   
 	ROUTE_END()
 }
