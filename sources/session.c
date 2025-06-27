@@ -70,7 +70,7 @@ int checkToken(const char *token) {
 
 	char line[SESSION_LINE_LEN];
 	while (fgets(line, sizeof(line), file)) {
-		char savedToken[TOKEN_SIZE];
+		char savedToken[TOKEN_BYTE_LENGTH];
 		char username[NAME_SIZE];
 
 		if (sscanf(line, "%64[^:]:%127s", savedToken, username) == 2) {
