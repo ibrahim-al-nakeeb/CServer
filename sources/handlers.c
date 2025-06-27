@@ -216,7 +216,7 @@ void serveLoginPage() {
 }
 
 void send404Page() {
-	char *response = renderFileResponse(_404_PAGE, NULL);
+	char *response = RENDER_FILE(_404_PAGE);
 	if (response) {
 		printf("%s", response);
 		free(response);
