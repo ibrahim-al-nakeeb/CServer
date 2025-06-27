@@ -32,6 +32,10 @@ void route() {
 		serveLoginPage();
 	}
 
+	ROUTE_GET("/logout") {
+		REDIRECT_AND_CLEAR_SESSION("login");
+	}
+
 	ROUTE_GET_STARTS_WITH("/") {
 		send404Page();
 	}
