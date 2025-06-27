@@ -35,7 +35,7 @@ int getUsernameFromToken(const char *token, char *outUsername) {
 
 	char line[SESSION_LINE_LEN];
 	while (fgets(line, sizeof(line), file)) {
-		char savedToken[TOKEN_SIZE], savedUsername[NAME_SIZE];
+		char savedToken[TOKEN_BYTE_LENGTH], savedUsername[NAME_SIZE];
 		if (sscanf(line, "%64[^:]:%127s", savedToken, savedUsername) == 2) {
 			if (strcmp(token, savedToken) == 0) {
 				strcpy(outUsername, savedUsername);
