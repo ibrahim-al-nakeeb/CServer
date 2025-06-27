@@ -30,6 +30,7 @@ void signIn(const char *payload);
 void send404Page();
 void serveLoginPage();
 void serveHomePage(const char *payload);
+void handleLoginPost(const char *payload);
 void sendFileResponse(const char *filePath);
 
 
