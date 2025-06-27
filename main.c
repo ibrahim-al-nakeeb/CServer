@@ -44,12 +44,8 @@ void route() {
 		serveHomePage(payload);
 	}
 
-	ROUTE_POST("/signup") {
-		signUp(payload);
-	}
-
-	ROUTE_POST("/signin") {
-		signIn(payload);
+	ROUTE_POST("/login") {
+		handleLoginPost(payload);
 	}
 
 	ROUTE_GET_STARTS_WITH("/public/") {
