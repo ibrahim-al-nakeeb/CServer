@@ -7,6 +7,16 @@
 
 #include "response.h"
 
+/*
+ * Determines the MIME type based on the file extension of the given path.
+ *
+ * Parameters:
+ *	path - The file path to evaluate (must not be NULL).
+ *
+ * Returns:
+ *   A string literal representing the MIME type (e.g., "text/html", "image/png").
+ *   Defaults to MIME_BIN if the extension is unrecognized or missing.
+ */
 const char *get_mime_type(const char *path) {
 	assert(path != NULL);
 
@@ -23,7 +33,20 @@ const char *get_mime_type(const char *path) {
 	return MIME_BIN;
 }
 
-// Allocates memory, caller must free result
+/*
+ * Reads the entire contents of a binary file into a newly allocated buffer.
+ *
+ * Parameters:
+ *   path     - Path to the file to read (must not be NULL).
+ *   out_size - Optional pointer to store the number of bytes read; can be NULL.
+ *
+ * Returns:
+ *   Pointer to a newly allocated buffer containing the file's contents,
+ *   or NULL if the file cannot be opened, read fully, or memory allocation fails.
+ *
+ * Side Effects:
+ *   Allocates memory that must be freed by the caller.
+ */
 char *getFile(const char *path, int *out_size) {
 	assert(path != NULL);
 
@@ -65,7 +88,22 @@ char *getFile(const char *path, int *out_size) {
 	return buffer;
 }
 
-// Allocates memory, caller must free result
+/*
+ * Loads a template file and replaces specified placeholders with corresponding values.
+ *
+ * Parameters:
+ *   filepath     - Path to the template file to load.
+ *   placeholders - Array of placeholder strings to search for in the template.
+ *   values       - Array of values to replace corresponding placeholders.
+ *   count        - Number of placeholder-value pairs (must match in both arrays).
+ *
+ * Returns:
+ *   A newly allocated string with all placeholders replaced by their values,
+ *   or NULL if the template file could not be read.
+ *
+ * Side Effects:
+ *   Allocates memory for the resulting page; the caller is responsible for freeing it.
+ */
 char *renderTemplate(const char *filepath, const char **placeholders, const char **values, int count) {
 	assert((count == 0) || (placeholders && values));
 
@@ -98,7 +136,21 @@ char *renderTemplate(const char *filepath, const char **placeholders, const char
 	return page;
 }
 
-// Allocates memory, caller must free result
+/*
+ * Generates a complete HTTP response from the contents of a file, including headers and body.
+ * If the file is missing, returns a 404 response. Access to "assets" directory is denied with a 403 response.
+ *
+ * Parameters:
+ *   filepath - Path to the file to be served (must not be NULL).
+ *   out_size - Optional pointer to store the total size of the response in bytes.
+ *
+ * Returns:
+ *   A newly allocated string containing the full HTTP response (headers + content),
+ *   or NULL if memory allocation fails.
+ *
+ * Side Effects:
+ *   Allocates memory for the response; the caller must free it.
+ */
 char *renderFileResponse(const char *filepath, int *out_size) {
 	assert(filepath != NULL);
 
@@ -139,7 +191,6 @@ char *renderFileResponse(const char *filepath, int *out_size) {
 		}
 	}
 
-	// Allocate memory for the full HTTP response
 	int header_size = snprintf(NULL, 0,
 		"%s\r\n"
 		"Content-Type: %s\r\n"
@@ -174,7 +225,20 @@ char *renderFileResponse(const char *filepath, int *out_size) {
 	return response;
 }
 
-// Allocates memory, caller must free result
+/*
+ * Constructs a complete HTTP response with the given HTML content and status line.
+ *
+ * Parameters:
+ *   html   - The HTML body content to include in the response (must not be NULL).
+ *   status - The HTTP status line (e.g., "HTTP/1.1 200 OK") (must not be NULL).
+ *
+ * Returns:
+ *   A newly allocated string containing the full HTTP response (headers + HTML body),
+ *   or NULL if memory allocation fails.
+ *
+ * Side Effects:
+ *   Allocates memory for the response; the caller is responsible for freeing it.
+ */
 char *renderHtmlResponse(const char *html, const char *status) {
 	int body_len = strlen(html);
 	const char *type = "text/html";
@@ -195,6 +259,16 @@ char *renderHtmlResponse(const char *html, const char *status) {
 	return response;
 }
 
+/*
+ * Renders and sends a 500 Internal Server Error page with a custom error message.
+ *
+ * Parameters:
+ *   message - The error message to display on the error page (must not be NULL).
+ *
+ * Side Effects:
+ *   Sends the generated HTTP response to stdout.
+ *   Falls back to a basic 500 response if template rendering fails.
+ */
 void renderErrorPage(const char *message) {
 	const char *placeholders[] = { "{{message}}" };
 	const char *values[] = { message };
@@ -212,6 +286,18 @@ void renderErrorPage(const char *message) {
 	free(response);
 }
 
+/*
+ * Sends an HTTP redirect response with optional session cookie handling.
+ *
+ * Parameters:
+ *   location     - The target URL for redirection (must not be NULL).
+ *   status       - The HTTP status line (e.g., "HTTP/1.1 302 Found") (must not be NULL).
+ *   clearCookie  - If non-zero, instructs the browser to delete the session cookie.
+ *   sessionToken - If provided and non-empty, sets a new session cookie with a 1-hour lifetime.
+ *
+ * Side Effects:
+ *   Prints the HTTP response (headers only) to stdout.
+ */
 void redirect(const char *location, const char *status, int clearCookie, const char *sessionToken) {
 	char cookieHeader[BUFFER_SIZE] = "";
 
@@ -235,6 +321,12 @@ void redirect(const char *location, const char *status, int clearCookie, const c
 	);
 }
 
+/*
+ * Sends a minimal fallback HTTP 500 Internal Server Error response with a plain text message.
+ *
+ * Side Effects:
+ *   Prints the response directly to stdout.
+ */
 void sendFallback500Response() {
 	const char *message = "An unexpected error occurred. Please try again later.\r\n";
 	printf(

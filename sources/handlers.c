@@ -7,12 +7,36 @@
 
 #include "handlers.h"
 
+/*
+ * Macro to generate a Bootstrap-styled alert HTML string with a close button.
+ *
+ * Parameters:
+ *   type    - The alert type (e.g., "success", "danger", "warning").
+ *   heading - The bold heading text displayed at the start of the alert.
+ *   message - The main message content following the heading.
+ *
+ * Returns:
+ *   A string literal representing the complete HTML for the alert box.
+ */
 #define ALERT(type, heading, message) \
     "<div class=\"alert alert-" type " alert-dismissible fade show\" role=\"alert\">" \
         "<strong>" heading "</strong> " message \
         "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>" \
     "</div>"
 
+/*
+ * Decodes a URL-encoded string, converting percent-encoded characters and plus signs.
+ *
+ * Parameters:
+ *   dst - Destination buffer to store the decoded result (must not be NULL).
+ *         Must be large enough to hold the decoded string.
+ *   src - Source URL-encoded string (must not be NULL).
+ *
+ * Behavior:
+ *   - Replaces "%XX" sequences with their corresponding character (hexadecimal decoding).
+ *   - Replaces '+' characters with spaces.
+ *   - Copies all other characters as-is.
+ */
 void urlDecode(char *dst, const char *src) {
 	assert(dst != NULL && src != NULL);
 
@@ -35,6 +59,22 @@ void urlDecode(char *dst, const char *src) {
 	*dst = '\0';
 }
 
+/*
+ * Handles user sign-up by parsing the request payload, creating a new user, and responding with feedback.
+ *
+ * Parameters:
+ *   payload - A URL-encoded string containing "username" and "password" parameters (must not be NULL).
+ *
+ * Behavior:
+ *   - Parses the payload to extract credentials.
+ *   - Attempts to register the user using addUser().
+ *   - On success, returns a login page with a success alert.
+ *   - On failure due to duplicate username, returns the login page with an error alert.
+ *   - On internal error, displays an error page.
+ *
+ * Side Effects:
+ *   Prints the HTTP response to stdout.
+ */
 void signUp(const char *payload) {
 	if (!payload) {
 		renderErrorPage("Invalid request payload.");
@@ -76,6 +116,23 @@ void signUp(const char *payload) {
 	}
 }
 
+/*
+ * Handles user sign-in by validating credentials and initiating a session on success.
+ *
+ * Parameters:
+ *   payload - A URL-encoded string containing "username" and "password" parameters (must not be NULL).
+ *
+ * Behavior:
+ *   - Parses the payload to extract login credentials.
+ *   - Validates credentials using checkPassword().
+ *   - On success, generates a session token, stores it, and redirects to /home with a session cookie.
+ *   - On invalid credentials, renders the login page with an error alert.
+ *   - On file errors, renders an internal error page.
+ *
+ * Side Effects:
+ *   Generates and store a session token.
+ *   Prints the HTTP response to stdout.
+ */
 void signIn(const char *payload) {
 	if (!payload) {
 		renderErrorPage("Invalid request payload.");
@@ -117,7 +174,16 @@ void signIn(const char *payload) {
 
 }
 
-// Ensures that the assets/db directory exists.
+/*
+ * Ensures that the "assets/db" directory exists, creating it if necessary.
+ *
+ * Behavior:
+ *   - Checks if "assets/db" exists using stat().
+ *   - If not present, creates the "assets" and "assets/db" directories with 0755 permissions.
+ *
+ * Side Effects:
+ *   Creates directories on the filesystem.
+ */
 void setUp(void) {
 	struct stat st = {0};
 	if (stat("assets/db", &st) == -1) {
@@ -126,6 +192,24 @@ void setUp(void) {
 	}
 }
 
+/*
+ * Serves the home page for a signed-in user, optionally updating the user's profile description.
+ *
+ * Parameters:
+ *   payload - Optional URL-encoded form data. If present and begins with "profile-description=",
+ *             the user's profile description will be updated accordingly.
+ *
+ * Behavior:
+ *   - Extracts and validates the session token from the Cookie header.
+ *   - Retrieves the associated username from the session token.
+ *   - If a valid profile update payload is provided, decodes and saves the new description.
+ *   - Loads and renders the home page template with the user's username and description.
+ *   - Responds with a full HTML response or an error page if any step fails.
+ *
+ * Side Effects:
+ *   Sends the HTTP response to stdout.
+ *   Redirects to the login page and clears the session on invalid token.
+ */
 void serveHomePage(const char *payload) {
 	char *token = extractSessionToken();
 	if (!token) {
@@ -183,6 +267,18 @@ void serveHomePage(const char *payload) {
 	}
 }
 
+/*
+ * Serves the login page, redirecting authenticated users to the home page.
+ *
+ * Behavior:
+ *   - Attempts to extract and validate a session token from the Cookie header.
+ *   - If the token is valid, redirects the user to "/home".
+ *   - Otherwise, renders and serves the login page without any alert messages.
+ *   - If rendering fails, displays an internal error page.
+ *
+ * Side Effects:
+ *   Sends the HTTP response to stdout.
+ */
 void serveLoginPage() {
 	char *token = extractSessionToken();
 	if (token) {
@@ -215,6 +311,16 @@ void serveLoginPage() {
 	}
 }
 
+/*
+ * Sends a pre-rendered 404 Not Found HTML page as the HTTP response.
+ *
+ * Behavior:
+ *   - Loads the contents of the _404_PAGE file using RENDER_FILE.
+ *   - Prints the response to stdout if successfully loaded.
+ *
+ * Side Effects:
+ *   Sends the HTTP response to stdout.
+ */
 void send404Page() {
 	char *response = RENDER_FILE(_404_PAGE);
 	if (response) {
@@ -223,6 +329,20 @@ void send404Page() {
 	}
 }
 
+/*
+ * Sends the contents of the specified file as an HTTP response.
+ *
+ * Parameters:
+ *   filePath - Path to the file to be served (must not be NULL).
+ *
+ * Behavior:
+ *   - Loads the file using RENDER_FILE_WITH_SIZE, which includes HTTP headers.
+ *   - Writes the complete response to stdout using fwrite.
+ *   - Frees the allocated memory after sending.
+ *
+ * Side Effects:
+ *   Sends the HTTP response to stdout.
+ */
 void sendFileResponse(const char *filePath) {
 	int response_size = 0;
 	char *response = RENDER_FILE_WITH_SIZE(filePath, &response_size);
@@ -232,6 +352,21 @@ void sendFileResponse(const char *filePath) {
 	}
 }
 
+/*
+ * Handles POST requests to the login endpoint by dispatching to sign-in or sign-up logic.
+ *
+ * Parameters:
+ *   payload - A URL-encoded request body containing an "action" key and additional parameters (must not be NULL).
+ *
+ * Behavior:
+ *   - Parses the "action" field from the payload.
+ *   - If action is "signin", delegates to signIn() with the remaining payload.
+ *   - If action is "signup", delegates to signUp() with the remaining payload.
+ *   - Otherwise, renders an error page indicating an invalid request.
+ *
+ * Side Effects:
+ *   Generates and send HTML responses to stdout.
+ */
 void handleLoginPost(const char *payload) {
 	if (!payload) {
 		renderErrorPage("Invalid request payload.");
