@@ -42,7 +42,7 @@ void signUp(const char *payload) {
 	}
 
 	char username[NAME_SIZE], password[NAME_SIZE];
-	const char *placeholders[] = { "{{message}}" };
+	const char *placeholders[] = { "{{alert}}" };
 	const char *values[1];
 	const char *status = STATUS_200_OK;
 
@@ -96,7 +96,7 @@ void signIn(const char *payload) {
 		return;
 	}
 
-	const char *placeholders[] = { "alert" };
+	const char *placeholders[] = { "{{alert}}" };
 	const char *values[] = { ALERT("danger", "Unauthorized", "Invalid credentials.") };
 	char *html = renderTemplate(LOGIN_PAGE, placeholders, values, 1);
 
@@ -195,7 +195,7 @@ void serveLoginPage() {
 		}
 	}
 
-	const char *placeholders[] = { "alert" };
+	const char *placeholders[] = { "{{alert}}" };
 	const char *values[] = { "" };
 
 	char *html = renderTemplate(LOGIN_PAGE, placeholders, values, 1);
