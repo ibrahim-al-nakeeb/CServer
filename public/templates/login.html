@@ -26,7 +26,8 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-8">
                     <h2 class="fw-bold mb-5">Sign in now</h2>
-                    <form>
+                    <form method="post" action="/login">
+                        <input type="hidden" name="action" value="signin" id="form-action" />
                             <!-- Username input -->
                         <div class="form-outline mb-4">
                             <input type="text" id="username" name="username" class="form-control" required/>
@@ -38,8 +39,8 @@
                             <label class="form-label" for="form3Example4">Password</label>
                         </div>
                             <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary mb-4" formaction="/api/signin" formmethod="post">Sign in</button>
-                        <button type="submit" class="btn btn-primary mb-4" formaction="/api/signup" formmethod="post">Sign up</button>
+                        <button type="submit" class="btn btn-primary mb-4">Sign in</button>
+                        <button type="submit" class="btn btn-primary mb-4" onclick="document.getElementById('form-action').value='signup'">Sign up</button>
                             <!-- Register buttons -->
                         <div class="text-center">
                             <button type="button" class="btn btn-link btn-floating mx-1">
