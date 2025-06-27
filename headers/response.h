@@ -37,7 +37,7 @@
 #define GET_FILE(path) \
 	getFile(path, NULL)
 
-#define READ_FILE_WITH_SIZE(path, outSizePtr) \
+#define GET_FILE_WITH_SIZE(path, outSizePtr) \
 	getFile(path, outSizePtr)
 
 #define RENDER_FILE(path) \
