@@ -118,7 +118,7 @@ char *renderFileResponse(const char *filepath, int *out_size) {
 
 
 	int file_size = 0;
-	char *content = getFile(filepath, &file_size);
+	char *content = GET_FILE_WITH_SIZE(filepath, &file_size);
 	const char *mime_type = get_mime_type(filepath);
 	const char *status_line = "HTTP/1.1 200 OK";
 
@@ -126,7 +126,7 @@ char *renderFileResponse(const char *filepath, int *out_size) {
 		fprintf(stderr, "file %s not found\n", filepath);
 
 		if (strcmp(mime_type, MIME_HTML) == 0) {
-			content = getFile(_404_PAGE, &file_size);
+			content = GET_FILE_WITH_SIZE(_404_PAGE, &file_size);
 			if (content) {
 				mime_type = MIME_HTML;
 				status_line = "HTTP/1.1 404 Not Found";
