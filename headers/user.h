@@ -23,7 +23,8 @@
 
 
 #define ADD_USER_SUCCESS 1
-#define ADD_USER_INVALID_INPUT 0
+#define ADD_USER_FAILED 0
+#define ADD_USER_INVALID_INPUT -1
 
 
 #define MAX_LINE_LEN 512
