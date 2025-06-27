@@ -192,7 +192,7 @@ void serveHomePage(const char *payload) {
 }
 
 void serveLoginPage() {
-	char* token = extractSessionToken();
+	char *token = extractSessionToken();
 	if (token) {
 		int status = checkToken(token);
 		free(token);
