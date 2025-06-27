@@ -88,7 +88,7 @@ void signIn(const char *payload) {
 	int passwordStatus = checkPassword(username, password);
 	if (passwordStatus == PASSWORD_MATCH) {
 		char token[TOKEN_BYTE_LENGTH];
-		generateToken(token, sizeof(token));
+		generateToken(token);
 		storeSession(token, username);
 		REDIRECT_WITH_SESSION("/home", token);
 	} else if (passwordStatus == USER_FILE_ERROR) {
