@@ -48,22 +48,14 @@ void signUp(const char *payload) {
 
 	// Parse payload (format assumed: "username=...&password=...&profile=...")
 	sscanf(payload, "username=%127[^&]&password=%127[^&]", username, password);
-
-	int userStatus = checkUser(username);
-	if (userStatus == USER_EXISTS) {
-		values[0] = ALERT("danger", "Oops!", "That name has already been registered. Select a different one.");
-		status = STATUS_400_BAD_REQUEST;
-	} else if (userStatus == USER_FILE_ERROR) {
-		renderErrorPage("Something went wrong on our end. Please try again later.");
-		return;
-	}
-
-	// Try to add user
 	int addStatus = addUser(username, password);
 	if (addStatus == ADD_USER_SUCCESS) {
 		values[0] = ALERT("success", "Sign-up successful!", "You're all set! Go ahead and sign in.");
+	} else if (addStatus == ADD_USER_FAILED) {
+		values[0] = ALERT("danger", "Oops!", "That name has already been registered. Select a different one.");
+		status = STATUS_400_BAD_REQUEST;
 	} else {
-		renderErrorPage("Oops! We couldn’t create your account. Give it another try.");
+		renderErrorPage("Something went wrong on our end. Please try again later.");
 		return;
 	}
 
@@ -72,7 +64,7 @@ void signUp(const char *payload) {
 		renderErrorPage("Unable to display login page.");
 		return;
 	}
-	
+
 	char *response = renderHtmlResponse(html, status);
 	free(html);
 
