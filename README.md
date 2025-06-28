@@ -1,4 +1,26 @@
-# C-Server - Multi-Connection HTTP Server in C
+# C-Server 
+**Multi-Connection HTTP Server in C**
+
+## Table of Contents
+
+* [Introduction](#introduction)
+* [Features](#features)
+* [Screenshots](#screenshots)
+* [Project Structure](#project-structure)
+* [Routing Overview](#routing-overview)
+* [Modules](#modules)
+
+  * [Module: httpd](#module-httpd)
+  * [Module: user](#module-user)
+  * [Module: session](#module-session)
+  * [Module: response](#module-response)
+  * [Module: handlers](#module-handlers)
+* [Installation](#installation)
+* [Running the Server](#running-the-server)
+* [Cleaning Build Files](#cleaning-build-files)
+* [Notes](#notes)
+
+---
 
 ## Introduction
 
@@ -340,30 +362,38 @@ Implements high-level logic for routing, user interaction, and serving pages. Co
 #### Functions
 
 * **`void setUp(void);`**
+
   Initializes server state (e.g., creates required directories or files if missing). Should be called at startup.
 
 * **`void signUp(const char *payload);`**
+
   Handles user registration requests. Parses the form data and registers the user if valid.
 
 * **`void signIn(const char *payload);`**
+
   Handles login attempts. Validates credentials, creates a session token, and redirects appropriately.
 
 * **`void send404Page();`**
+
   Sends a 404 Not Found error response.
 
 * **`void serveLoginPage();`**
+
   Renders and serves the login/registration HTML page.
 
 * **`void serveHomePage(const char *payload);`**
+
   Loads and serves the profile editor page.
 
   * If `payload` is `NULL`, the page is just displayed.
   * If `payload` is present, it processes and updates the profile description.
 
 * **`void handleLoginPost(const char *payload);`**
+
   Dispatches incoming POST requests to either `signUp()` or `signIn()` depending on the form content.
 
 * **`void sendFileResponse(const char *filePath);`**
+
   Serves a static file (e.g., HTML, CSS, image) to the client based on the path.
 
 ---
